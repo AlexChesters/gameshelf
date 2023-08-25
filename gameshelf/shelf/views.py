@@ -11,6 +11,13 @@ class GameForm(forms.Form):
     title = forms.CharField(max_length=200)
     platform = forms.ChoiceField(choices=game_platforms)
 
+    def __init__(self, *args, **kwargs):
+        disable_title = kwargs.pop("disable_title", None)
+        super(GameForm, self).__init__(*args, **kwargs)
+
+        if disable_title:
+            self.fields["title"].disabled = True
+
 @login_required
 def index(request: HttpRequest):
     user: ShelfUser = request.user
@@ -58,6 +65,6 @@ def edit_a_game(request: HttpRequest, game_id):
     else:
         game = get_object_or_404(Game, pk=game_id)
         context = {
-            "form": GameForm(initial={"title": game.title, "platform": game.platform})
+            "form": GameForm(initial={"title": game.title, "platform": game.platform}, disable_title=True)
         }
         return render(request, "shelf/add_a_game.html", context)
