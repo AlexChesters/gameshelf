@@ -2,4 +2,9 @@
 
 {% block content %}
 <h1>Games</h1>
+<ul>
+  {% for game in games %}
+  <li>{{game.title}}</li>
+  {% endfor %}
+</ul>
 {% endblock %}
