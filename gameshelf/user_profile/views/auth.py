@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, HttpRequest
 from django.urls import reverse
 from django import forms
+
+from user_profile.models import ShelfUser
 
 class AuthenticateForm(forms.Form):
     user_name = forms.CharField(max_length=50)
@@ -14,7 +15,7 @@ class AuthenticateForm(forms.Form):
 def user_profile(request: HttpRequest):
     if request.method == "POST":
         logout(request)
-        return HttpResponseRedirect("/")
+        return HttpResponseRedirect(reverse('user_profile:sign_in'))
     else:
         context = {
             "username": request.user.username
@@ -44,7 +45,7 @@ def sign_up(request):
         username = request.POST["user_name"]
         password = request.POST["password"]
 
-        user = User.objects.create_user(username=username, email=None, password=password)
+        user = ShelfUser.objects.create_user(username=username, email=None, password=password)
         user.save()
         login(request, user)
         return HttpResponseRedirect(reverse("user_profile:profile"))
