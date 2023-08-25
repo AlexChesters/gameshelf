@@ -23,8 +23,16 @@ class GameForm(forms.Form):
 def index(request: HttpRequest):
     user: ShelfUser = request.user
 
+    all_games = user.collection.games.all()
+
+    unplayed_games = all_games.filter(status="unplayed")
+    currently_playing_games = all_games.filter(status="playing")
+    completed_games = all_games.filter(status="completed")
+
     context = {
-        "games": user.collection.games.all()
+        "unplayed_games": unplayed_games,
+        "currently_playing_games": currently_playing_games,
+        "completed_games": completed_games
     }
     return render(request, "shelf/index.html", context)
 

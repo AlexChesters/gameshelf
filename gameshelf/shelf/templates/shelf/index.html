@@ -6,10 +6,11 @@
 {% endblock %}
 
 {% block content %}
-<h1>Games</h1>
+<h1>Unplayed</h1>
+{% if unplayed_games %}
 <table class="table">
   <tbody>
-  {% for game in games %}
+  {% for game in unplayed_games %}
   <tr>
     <td>
       <div class="title">{{game.title}}</div>
@@ -21,4 +22,47 @@
   {% endfor %}
   </tbody>
 </table>
+{% else %}
+<p>No unplayed games</p>
+{% endif %}
+
+<h1>Currently playing</h1>
+{% if currently_playing_games %}
+<table class="table">
+  <tbody>
+  {% for game in currently_playing_games %}
+  <tr>
+    <td>
+      <div class="title">{{game.title}}</div>
+      <div class="platform">{{game.get_platform_display}}</div>
+    </td>
+    <td>{{game.get_status_display}}</td>
+    <th><a href="{% url 'shelf:edit_a_game' game.id %}">Edit</a></th>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>No currently playing games</p>
+{% endif %}
+
+<h1>Completed</h1>
+{% if completed_games %}
+<table class="table">
+  <tbody>
+  {% for game in completed_games %}
+  <tr>
+    <td>
+      <div class="title">{{game.title}}</div>
+      <div class="platform">{{game.get_platform_display}}</div>
+    </td>
+    <td>{{game.get_status_display}}</td>
+    <th><a href="{% url 'shelf:edit_a_game' game.id %}">Edit</a></th>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>No completed games</p>
+{% endif %}
 {% endblock %}
