@@ -23,10 +23,13 @@ def index(request: HttpRequest):
 @login_required
 def add_a_game(request: HttpRequest):
     if request.method == "POST":
-        print(request.POST["title"])
         user: ShelfUser = request.user
 
-        game = Game(title=request.POST["title"])
+        game = Game(
+            title=request.POST["title"],
+            platform=request.POST["platform"]
+        )
+
         game.save()
         user.games.add(game)
         user.save()
