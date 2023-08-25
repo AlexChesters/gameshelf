@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
+{% if user_not_found %}
+  <h1>Error: could not find user with those details</h1>
+  <p>Use the below form to create a new account</p>
+{% endif %}
 <form method="post">
   {% csrf_token %}
   {{ form.as_p }}

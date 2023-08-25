@@ -29,7 +29,7 @@ def sign_in(request):
             login(request, user)
             return HttpResponseRedirect(reverse("user_profile:profile"))
         else:
-            return HttpResponseRedirect(reverse("user_profile:sign_up"))
+            return HttpResponseRedirect(f"{reverse('user_profile:sign_up')}?reason=user_not_found")
     else:
         context = {
             "form": AuthenticateForm()
@@ -47,6 +47,7 @@ def sign_up(request):
         return HttpResponseRedirect(reverse("user_profile:profile"))
     else:
         context = {
-            "form": AuthenticateForm()
+            "form": AuthenticateForm(),
+            "user_not_found": request.GET.get("reason") == "user_not_found"
         }
         return render(request, "user_profile/sign_up.html", context)
