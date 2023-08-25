@@ -127,3 +127,5 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LOGIN_URL = "/user/sign-in"
+
+AUTH_USER_MODEL = "user_profile.ShelfUser"

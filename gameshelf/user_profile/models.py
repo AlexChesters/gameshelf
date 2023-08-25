@@ -1,8 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 
 from shelf.models import Game
 
-class ShelfUser(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+class ShelfUser(AbstractUser):
     games = models.ManyToManyField(Game)
