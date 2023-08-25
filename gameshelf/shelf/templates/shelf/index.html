@@ -7,6 +7,7 @@
   {% for game in games %}
   <tr>
     <th scope="row">{{game.title}}</th>
+    <th><a href="{% url 'shelf:edit_a_game' game.id %}">Edit</a></th>
   </tr>
   {% endfor %}
   </tbody>

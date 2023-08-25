@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect, HttpRequest
 from django.urls import reverse
 from django import forms
 
-from user_profile.models import ShelfUser
+from user_profile.models import ShelfUser, Collection
 
 class AuthenticateForm(forms.Form):
     user_name = forms.CharField(max_length=50)
@@ -45,7 +45,8 @@ def sign_up(request):
         username = request.POST["user_name"]
         password = request.POST["password"]
 
-        user = ShelfUser.objects.create_user(username=username, email=None, password=password)
+        user = ShelfUser.objects.create_user(username=username, email=None, password=password, collection=Collection.objects.create())
+
         user.save()
         login(request, user)
         return HttpResponseRedirect(reverse("user_profile:profile"))

@@ -22,5 +22,5 @@ game_platforms = [
 ]
 
 class Game(models.Model):
-    title = models.CharField(max_length=200, primary_key=True)
+    title = models.CharField(max_length=200, unique=True)
     platform = models.CharField(max_length=50, choices=game_platforms, null=True)
