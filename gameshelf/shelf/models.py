@@ -21,6 +21,13 @@ game_platforms = [
     ("ps5", "PlayStation 5")
 ]
 
+game_statuses = [
+    ("unplayed", "Unplayed"),
+    ("playing", "Currently playing"),
+    ("completed", "Completed")
+]
+
 class Game(models.Model):
     title = models.CharField(max_length=200, unique=True)
     platform = models.CharField(max_length=50, choices=game_platforms, null=True)
+    status = models.CharField(max_length=50, choices=game_statuses, null=True)
