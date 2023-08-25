@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "gameshelf"
+version = "0.1.0"
+description = "keep track of your video games"
+authors = ["Alex Chesters <alex@cheste.rs>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+Django = "^4.2.4"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
