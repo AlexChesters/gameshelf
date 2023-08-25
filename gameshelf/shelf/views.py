@@ -5,10 +5,11 @@ from django.http import HttpRequest, HttpResponseRedirect
 from django import forms
 
 from user_profile.models import ShelfUser
-from shelf.models import Game
+from shelf.models import Game, game_platforms
 
 class GameForm(forms.Form):
     title = forms.CharField(max_length=200)
+    platform = forms.ChoiceField(choices=game_platforms)
 
 @login_required
 def index(request: HttpRequest):
