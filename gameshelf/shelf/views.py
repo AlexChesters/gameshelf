@@ -75,6 +75,13 @@ def edit_a_game(request: HttpRequest, game_id):
     else:
         game = get_object_or_404(Game, pk=game_id)
         context = {
-            "form": GameForm(initial={"title": game.title, "platform": game.platform}, disable_title=True)
+            "form": GameForm(
+                initial={
+                    "title": game.title,
+                    "platform": game.platform,
+                    "status": game.status
+                },
+                disable_title=True
+            )
         }
         return render(request, "shelf/add_a_game.html", context)
