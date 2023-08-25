@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'user_profile/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+<h1>Hello, {{ username }}</h1>
+
+<div class="fixed-bottom">
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Sign out</button>
+  </form>
+</div>
+{% endblock %}

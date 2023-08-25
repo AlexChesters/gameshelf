@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpRequest
 
 from django.urls import reverse
 from django import forms
@@ -12,11 +12,15 @@ class AuthenticateForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput())
 
 @login_required
-def user_profile(request):
-    context = {
-        "username": request.user.username
-    }
-    return render(request, "user_profile/index.html", context)
+def user_profile(request: HttpRequest):
+    if request.method == "POST":
+        logout(request)
+        return HttpResponseRedirect("/")
+    else:
+        context = {
+            "username": request.user.username
+        }
+        return render(request, "user_profile/profile.html", context)
 
 def sign_in(request):
     if request.method == "POST":
