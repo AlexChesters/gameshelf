@@ -6,6 +6,7 @@ game_platforms = [
     ("epic", "Epic"),
     ("xbox_pc", "Xbox (PC)"),
     ("gog_galaxy", "GOG Galaxy"),
+    ("pc_standalone", "PC (standalone)"),
     # Xbox
     ("xbox_og", "Xbox (original)"),
     ("xbox_360", "Xbox 360"),
