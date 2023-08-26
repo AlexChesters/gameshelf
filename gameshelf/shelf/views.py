@@ -84,6 +84,7 @@ def edit_a_game(request: HttpRequest, game_id):
 
         game.platform = request.POST["platform"]
         game.status = request.POST["status"]
+        game.rating = request.POST["rating"]
         game.save()
 
         user.collection.games.add(game)
