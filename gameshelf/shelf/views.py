@@ -28,7 +28,7 @@ def unplayed_games(request: HttpRequest):
     context = {
         "games": games
     }
-    return render(request, "shelf/unplayed.html", context)
+    return render(request, "shelf/games/unplayed.html", context)
 
 @login_required
 def currently_playing_games(request: HttpRequest):
@@ -39,7 +39,7 @@ def currently_playing_games(request: HttpRequest):
     context = {
         "games": games
     }
-    return render(request, "shelf/playing.html", context)
+    return render(request, "shelf/games/playing.html", context)
 
 @login_required
 def completed_games(request: HttpRequest):
@@ -50,7 +50,7 @@ def completed_games(request: HttpRequest):
     context = {
         "games": games
     }
-    return render(request, "shelf/completed.html", context)
+    return render(request, "shelf/games/completed.html", context)
 
 @login_required
 def add_a_game(request: HttpRequest):
