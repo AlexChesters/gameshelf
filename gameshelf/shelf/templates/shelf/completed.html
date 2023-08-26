@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'shelf/index.css' %}">
+{% endblock %}
+
+{% block content %}
+<h1>Completed</h1>
+{% if games %}
+<table class="table">
+  <tbody>
+  {% for game in games %}
+  <tr>
+    <td>
+      <div class="title">{{game.title}}</div>
+      <div class="platform">{{game.get_platform_display}}</div>
+    </td>
+    <td>{{game.get_status_display}}</td>
+    <th><a href="{% url 'shelf:edit_a_game' game.id %}">Edit</a></th>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>No completed games</p>
+{% endif %}
+{% endblock %}

@@ -20,21 +20,37 @@ class GameForm(forms.Form):
             self.fields["title"].disabled = True
 
 @login_required
-def index(request: HttpRequest):
+def unplayed_games(request: HttpRequest):
     user: ShelfUser = request.user
 
-    all_games = user.collection.games.all()
-
-    unplayed_games = all_games.filter(status="unplayed")
-    currently_playing_games = all_games.filter(status="playing")
-    completed_games = all_games.filter(status="completed")
+    games = user.collection.games.all().filter(status="unplayed")
 
     context = {
-        "unplayed_games": unplayed_games,
-        "currently_playing_games": currently_playing_games,
-        "completed_games": completed_games
+        "games": games
     }
-    return render(request, "shelf/index.html", context)
+    return render(request, "shelf/unplayed.html", context)
+
+@login_required
+def currently_playing_games(request: HttpRequest):
+    user: ShelfUser = request.user
+
+    games = user.collection.games.all().filter(status="playing")
+
+    context = {
+        "games": games
+    }
+    return render(request, "shelf/playing.html", context)
+
+@login_required
+def completed_games(request: HttpRequest):
+    user: ShelfUser = request.user
+
+    games = user.collection.games.all().filter(status="completed")
+
+    context = {
+        "games": games
+    }
+    return render(request, "shelf/completed.html", context)
 
 @login_required
 def add_a_game(request: HttpRequest):
