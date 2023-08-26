@@ -68,7 +68,7 @@ def add_a_game(request: HttpRequest):
         user.collection.games.add(game)
         user.save()
 
-        return HttpResponseRedirect(reverse("shelf:add"))
+        return HttpResponseRedirect(reverse("shelf:add_a_game"))
     else:
         context = {
             "form": GameForm()
@@ -89,7 +89,7 @@ def edit_a_game(request: HttpRequest, game_id):
         user.collection.games.add(game)
         user.save()
 
-        return HttpResponseRedirect(reverse("shelf:index"))
+        return HttpResponseRedirect(reverse(f"shelf:{game.status}"))
     else:
         game = get_object_or_404(Game, pk=game_id)
         context = {

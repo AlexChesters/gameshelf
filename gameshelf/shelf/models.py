@@ -36,7 +36,7 @@ game_ratings = [
 ]
 
 class Game(models.Model):
-    title = models.CharField(max_length=200, unique=True)
+    title = models.CharField(max_length=200)
     platform = models.CharField(max_length=50, choices=game_platforms, null=True)
     status = models.CharField(max_length=50, choices=game_statuses, null=True)
     rating = models.IntegerField(choices=game_ratings, null=True)

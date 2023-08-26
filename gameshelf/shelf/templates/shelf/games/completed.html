@@ -13,7 +13,7 @@
   {% for game in games %}
   <tr>
     <td>
-      <a href="{% url 'shelf:edit_a_game' game.id %}">
+      <a href="{% url 'shelf:edit_a_game' game.id %}" class="game-info">
         <div class="game-title">{{game.title}}</div>
         <div class="platform">{{game.get_platform_display}}</div>
       </a>
