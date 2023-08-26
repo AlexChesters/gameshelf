@@ -5,12 +5,13 @@ from django.http import HttpRequest, HttpResponseRedirect
 from django import forms
 
 from user_profile.models import ShelfUser
-from shelf.models import Game, game_platforms, game_statuses
+from shelf.models import Game, game_platforms, game_statuses, game_ratings
 
 class GameForm(forms.Form):
     title = forms.CharField(max_length=200)
     platform = forms.ChoiceField(choices=game_platforms)
     status = forms.ChoiceField(choices=game_statuses)
+    rating = forms.ChoiceField(choices=game_ratings)
 
     def __init__(self, *args, **kwargs):
         disable_title = kwargs.pop("disable_title", None)
@@ -60,13 +61,14 @@ def add_a_game(request: HttpRequest):
         game, _ = Game.objects.get_or_create(
             title=request.POST["title"],
             platform=request.POST["platform"],
-            status=request.POST["status"]
+            status=request.POST["status"],
+            rating=request.POST["rating"]
         )
 
         user.collection.games.add(game)
         user.save()
 
-        return HttpResponseRedirect(reverse("shelf:index"))
+        return HttpResponseRedirect(reverse("shelf:add"))
     else:
         context = {
             "form": GameForm()
@@ -95,7 +97,8 @@ def edit_a_game(request: HttpRequest, game_id):
                 initial={
                     "title": game.title,
                     "platform": game.platform,
-                    "status": game.status
+                    "status": game.status,
+                    "rating": game.rating
                 },
                 disable_title=True
             ),

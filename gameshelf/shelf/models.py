@@ -27,7 +27,16 @@ game_statuses = [
     ("completed", "Completed")
 ]
 
+game_ratings = [
+    (1, "\u2606"),
+    (2, "\u2606\u2606"),
+    (3, "\u2606\u2606\u2606"),
+    (4, "\u2606\u2606\u2606\u2606"),
+    (5, "\u2606\u2606\u2606\u2606\u2606")
+]
+
 class Game(models.Model):
     title = models.CharField(max_length=200, unique=True)
     platform = models.CharField(max_length=50, choices=game_platforms, null=True)
     status = models.CharField(max_length=50, choices=game_statuses, null=True)
+    rating = models.IntegerField(choices=game_ratings, null=True)
