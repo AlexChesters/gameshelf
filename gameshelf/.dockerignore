@@ -1,0 +1,8 @@
+# environment variables for local development
+.env
+
+# local sqlite database
+db.sqlite3
+
+# local virtual env
+.venv

@@ -8,6 +8,7 @@ license = "MIT"
 [tool.poetry.dependencies]
 python = "^3.11"
 Django = "^4.2.4"
+gunicorn = "^21.2.0"
 
 
 [tool.poetry.group.dev.dependencies]
