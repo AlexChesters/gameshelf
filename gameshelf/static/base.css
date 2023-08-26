@@ -9,3 +9,8 @@ header {
 main {
   margin-left: 15px;
 }
+
+.page-title {
+  margin-bottom: 20px;
+  font-size: xx-large;
+}

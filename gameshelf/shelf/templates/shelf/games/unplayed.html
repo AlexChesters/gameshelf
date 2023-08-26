@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block content %}
-<h1>Unplayed</h1>
+<h1 class="page-title">Unplayed</h1>
 {% if games %}
 <table class="table">
   <tbody>
@@ -14,7 +14,7 @@
   <tr>
     <td>
       <a href="{% url 'shelf:edit_a_game' game.id %}">
-        <div class="title">{{game.title}}</div>
+        <div class="game-title">{{game.title}}</div>
         <div class="platform">{{game.get_platform_display}}</div>
       </a>
     </td>
