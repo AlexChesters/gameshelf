@@ -16,7 +16,7 @@
       <div class="title">{{game.title}}</div>
       <div class="platform">{{game.get_platform_display}}</div>
     </td>
-    <th><a href="{% url 'shelf:edit_a_game' game.id %}">Edit</a></th>
+    <td><a href="{% url 'shelf:edit_a_game' game.id %}">Edit</a></td>
   </tr>
   {% endfor %}
   </tbody>

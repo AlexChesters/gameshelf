@@ -6,3 +6,7 @@
 .platform {
   font-size: smaller;
 }
+
+td:nth-last-child(1) {
+    text-align: right;
+}
