@@ -6,4 +6,4 @@ WORKDIR /usr/lib/gameshelf
 RUN pip install -r requirements.txt
 COPY . /usr/lib/gameshelf/
 
-CMD [ "gunicorn", "gameshelf.wsgi" ]
+CMD [ "gunicorn", "--bind", "0.0.0.0:8000", "gameshelf.wsgi" ]
