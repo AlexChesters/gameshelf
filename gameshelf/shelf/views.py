@@ -98,6 +98,7 @@ def edit_a_game(request: HttpRequest, game_id):
                     "status": game.status
                 },
                 disable_title=True
-            )
+            ),
+            "game": game
         }
-        return render(request, "shelf/add_a_game.html", context)
+        return render(request, "shelf/edit_a_game.html", context)
