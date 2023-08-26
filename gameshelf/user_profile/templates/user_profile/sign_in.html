@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'user_profile/sign_in.css' %}">
+{% endblock %}
 
 {% block content %}
+<h1 class="page-title">Sign in</h1>
+<a href="{% url 'user_profile:sign_up' %}">Don't have an account?</a>
 <form method="post">
   {% csrf_token %}
   {{ form.as_p }}

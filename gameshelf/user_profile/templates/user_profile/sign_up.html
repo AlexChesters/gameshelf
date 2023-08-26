@@ -4,6 +4,8 @@
 {% if user_not_found %}
   <h1>Error: could not find user with those details</h1>
   <p>Use the below form to create a new account</p>
+{% else %}
+<h1 class="page-title">Sign up</h1>
 {% endif %}
 <form method="post">
   {% csrf_token %}

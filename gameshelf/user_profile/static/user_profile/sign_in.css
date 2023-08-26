@@ -1,0 +1,9 @@
+.page-title {
+  margin-bottom: 0;
+}
+
+.page-title + a {
+  display: block;
+  margin-bottom: 20px;
+  font-style: italic;
+}
