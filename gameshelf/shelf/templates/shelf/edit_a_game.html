@@ -1,7 +1,12 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'shelf/add_and_edit.css' %}">
+{% endblock %}
 
 {% block content %}
-<h1>Edit {{game.title}}</h1>
+<h1 class="title">Edit {{game.title}}</h1>
 <form method="post">
   {% csrf_token %}
   {{ form.as_p }}
