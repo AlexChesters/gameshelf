@@ -1,10 +1,10 @@
 from django.urls import path
 
-from .views import auth
+from .views import user_profile, sign_in, sign_up
 
 app_name = "user_profile"
 urlpatterns = [
-    path("profile", auth.user_profile, name="profile"),
-    path("sign-in", auth.sign_in, name="sign_in"),
-    path("sign-up", auth.sign_up, name="sign_up")
+    path("profile", user_profile, name="profile"),
+    path("sign-in", sign_in, name="sign_in"),
+    path("sign-up", sign_up, name="sign_up")
 ]
