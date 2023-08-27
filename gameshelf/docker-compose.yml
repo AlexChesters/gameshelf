@@ -13,6 +13,7 @@ services:
       SECRET_KEY: $SECRET_KEY
       DEBUG_MODE: $DEBUG_MODE
       ALLOWED_HOSTS: pi-apps.chicken-stork.ts.net
+      ALLOWED_ORIGINS: https://pi-apps.chicken-stork.ts.net:10014
   nginx:
     image: arm64v8/nginx:1.25.2-alpine
     volumes:
