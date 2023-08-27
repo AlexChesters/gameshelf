@@ -8,4 +8,4 @@ RUN pip install -r requirements.txt
 COPY . /usr/lib/gameshelf/
 RUN python manage.py collectstatic --no-input
 
-CMD [ "gunicorn", "--bind", "0.0.0.0:8000", "gameshelf.wsgi" ]
+CMD [ "gunicorn", "--bind", "0.0.0.0:8000", "--access-logfile", "-", "--error-logfile", "-", "gameshelf.wsgi" ]
