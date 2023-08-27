@@ -1,0 +1,16 @@
+version: 0.2
+
+phases:
+  build:
+    commands:
+      # build image
+      - docker-compose build
+      # log in to the public registry
+      - aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/alexchesters
+      # push image
+      - docker push public.ecr.aws/alexchesters/gameshelf:latest
+      # clean up untagged images
+      - sh ci/scripts/clean-ecr-images.sh gameshelf
+artifacts:
+  files: "**/*"
+

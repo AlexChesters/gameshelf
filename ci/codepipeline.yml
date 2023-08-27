@@ -1,0 +1,136 @@
+Description: Pipeline for gameshelf
+Resources:
+  CodeBuildRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: codebuild.amazonaws.com
+      ManagedPolicyArns:
+        - !ImportValue ci-infrastructure-codebuild-base-policy
+      Policies:
+        - PolicyName: ecr-upload
+          PolicyDocument:
+            Statement:
+              - Action:
+                  - ecr-public:GetAuthorizationToken
+                  - sts:GetServiceBearerToken
+                Effect: Allow
+                Resource:
+                  - "*"
+              - Action:
+                  - ecr-public:BatchCheckLayerAvailability
+                  - ecr-public:BatchDeleteImage
+                  - ecr-public:GetDownloadUrlForLayer
+                  - ecr-public:GetRepositoryPolicy
+                  - ecr-public:DescribeRepositories
+                  - ecr-public:ListImages
+                  - ecr-public:DescribeImages
+                  - ecr-public:BatchGetImage
+                  - ecr-public:GetLifecyclePolicy
+                  - ecr-public:GetLifecyclePolicyPreview
+                  - ecr-public:ListTagsForResource
+                  - ecr-public:DescribeImageScanFindings
+                  - ecr-public:InitiateLayerUpload
+                  - ecr-public:UploadLayerPart
+                  - ecr-public:CompleteLayerUpload
+                  - ecr-public:PutImage
+                Effect: Allow
+                Resource:
+                  - "*"
+                Condition:
+                  StringEquals:
+                    aws:PrincipalOrgID: o-hru7a3vwm2
+  CodeBuildProject:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Artifacts:
+        Type: CODEPIPELINE
+        Location: !ImportValue ci-infrastructure-build-artifacts-bucket-name
+        Path: /artifacts/gameshelf/
+        Packaging: NONE
+        Name: build
+        NamespaceType: BUILD_ID
+      TimeoutInMinutes: 15
+      Description: Builds gameshelf
+      Environment:
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: aws/codebuild/amazonlinux2-aarch64-standard:3.0
+        Type: ARM_CONTAINER
+        PrivilegedMode: true
+        EnvironmentVariables:
+          - Value: !ImportValue ci-infrastructure-build-artifacts-bucket-name
+            Name: ARTIFACTS_BUCKET
+            Type: PLAINTEXT
+      Name: gameshelf
+      ServiceRole: !GetAtt CodeBuildRole.Arn
+      Source:
+        Type: CODEPIPELINE
+        BuildSpec: buildspec.yml
+  CodePipeline:
+    Type: AWS::CodePipeline::Pipeline
+    Properties:
+      ArtifactStores:
+        - Region: eu-west-1
+          ArtifactStore:
+            Type: S3
+            Location: !Sub "alex-chesters-build-artifacts-${AWS::AccountId}-eu-west-1"
+        - Region: us-east-1
+          ArtifactStore:
+            Type: S3
+            Location: !Sub "alex-chesters-build-artifacts-${AWS::AccountId}-us-east-1"
+      Name: gameshelf
+      RestartExecutionOnUpdate: true
+      RoleArn: !ImportValue ci-infrastructure-codepipeline-base-execution-role
+      Stages:
+        - Name: Source
+          Actions:
+            - ActionTypeId:
+                Category: Source
+                Owner: AWS
+                Version: "1"
+                Provider: CodeStarSourceConnection
+              OutputArtifacts:
+                - Name: GitHubSource
+              RunOrder: 1
+              Name: Clone-From-GitHub
+              Configuration:
+                ConnectionArn: !ImportValue ci-infrastructure-codestar-connection
+                FullRepositoryId: AlexChesters/gameshelf
+                BranchName: main
+                OutputArtifactFormat: CODE_ZIP
+        - Name: Deploy-Stacks
+          Actions:
+            - ActionTypeId:
+                Category: Deploy
+                Owner: AWS
+                Version: "1"
+                Provider: CloudFormation
+              InputArtifacts:
+                - Name: GitHubSource
+              RunOrder: 1
+              Name: ECR
+              Region: us-east-1
+              Configuration:
+                ActionMode: REPLACE_ON_FAILURE
+                Capabilities: CAPABILITY_NAMED_IAM,CAPABILITY_AUTO_EXPAND
+                StackName: live-gameshelf-images
+                RoleArn: !ImportValue ci-infrastructure-codepipeline-base-cloudformation-role
+                TemplatePath: GitHubSource::stacks/docker-images-account/ecr.yml
+                TemplateConfiguration: GitHubSource::stacks/docker-images-account/parameters/ecr.json
+        - Name: Deploy-Images
+          Actions:
+            - ActionTypeId:
+                Category: Build
+                Owner: AWS
+                Version: "1"
+                Provider: CodeBuild
+              InputArtifacts:
+                - Name: GitHubSource
+              RunOrder: 1
+              Name: CodeBuild
+              Configuration:
+                ProjectName: !Ref CodeBuildProject

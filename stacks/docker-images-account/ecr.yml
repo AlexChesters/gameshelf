@@ -1,0 +1,6 @@
+Description: ECR infrastructure for gameshelf
+Resources:
+  HNRepository:
+    Type: AWS::ECR::PublicRepository
+    Properties:
+      RepositoryName: gameshelf
