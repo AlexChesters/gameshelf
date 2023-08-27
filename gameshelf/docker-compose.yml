@@ -11,6 +11,7 @@ services:
       - gameshelf_static:/var/www/gameshelf/static
     environment:
       SECRET_KEY: $SECRET_KEY
+      DEBUG_MODE: $DEBUG_MODE
       ALLOWED_HOSTS: pi-apps.chicken-stork.ts.net
   nginx:
     image: arm64v8/nginx:1.25.2-alpine
