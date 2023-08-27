@@ -17,7 +17,7 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
       - gameshelf_static:/var/www/gameshelf/static
     ports:
-      - 8080:80
+      - 8050:80
 
 volumes:
   gameshelf_static:
