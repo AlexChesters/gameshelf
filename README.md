@@ -1,2 +1,2 @@
 # gameshelf
-keep track of your video games
+self-hosted video game library tracker
