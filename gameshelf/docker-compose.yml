@@ -1,6 +1,7 @@
 version: "3.7"
 services:
   gameshelf:
+    image: public.ecr.aws/alexchesters/gameshelf:latest
     build:
       context: .
       dockerfile: Dockerfile
