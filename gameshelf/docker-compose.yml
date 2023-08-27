@@ -9,6 +9,7 @@ services:
     restart: unless-stopped
     volumes:
       - gameshelf_static:/var/www/gameshelf/static
+      - gameshelf_db:/usr/lib/gameshelf/db.sqlite3
     environment:
       SECRET_KEY: $SECRET_KEY
       DEBUG_MODE: $DEBUG_MODE
@@ -24,3 +25,4 @@ services:
 
 volumes:
   gameshelf_static:
+  gameshelf_db:
