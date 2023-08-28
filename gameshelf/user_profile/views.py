@@ -1,11 +1,14 @@
+import csv
+
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponseRedirect, HttpRequest
+from django.http import HttpResponseRedirect, HttpRequest, HttpResponse
 from django.urls import reverse
 from django import forms
 
 from user_profile.models import ShelfUser, Collection
+from shelf.models import Game
 
 class AuthenticateForm(forms.Form):
     user_name = forms.CharField(max_length=50)
@@ -14,8 +17,23 @@ class AuthenticateForm(forms.Form):
 @login_required
 def user_profile(request: HttpRequest):
     if request.method == "POST":
-        logout(request)
-        return HttpResponseRedirect(reverse('user_profile:sign_in'))
+        if "sign_out" in request.POST:
+            logout(request)
+            return HttpResponseRedirect(reverse('user_profile:sign_in'))
+        else:
+            user: ShelfUser = request.user
+            games: list[Game] = user.collection.games.all()
+
+            response = HttpResponse(
+                content_type="text/csv",
+                headers={"Content-Disposition": 'attachment; filename="gameshelf.csv"'}
+            )
+            writer = csv.DictWriter(response, fieldnames=games[0].to_dict().keys())
+            writer.writeheader()
+            for game in games:
+                writer.writerow(game.to_dict())
+
+            return response
     else:
         context = {
             "username": request.user.username

@@ -8,10 +8,11 @@
 {% block content %}
 <h1>Hello, {{ username }}</h1>
 
-<div class="fixed-bottom">
+<div>
   <form method="post">
     {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Sign out</button>
+    <button type="submit" class="btn btn-primary" name="export">Export</button>
+    <button type="submit" class="btn btn-danger fixed-bottom" name="sign_out">Sign out</button>
   </form>
 </div>
 {% endblock %}

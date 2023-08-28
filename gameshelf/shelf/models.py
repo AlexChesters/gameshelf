@@ -47,3 +47,13 @@ class Game(models.Model):
 
     class Meta:
         ordering = ["ranking"]
+
+    def to_dict(self) -> dict:
+        return {
+            "title": self.title,
+            "release_date": self.release_date.isoformat() if self.release_date else None,
+            "platform": self.platform,
+            "status": self.status,
+            "rating": self.rating,
+            "ranking": self.ranking
+        }
