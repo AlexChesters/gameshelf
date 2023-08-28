@@ -42,3 +42,7 @@ class Game(models.Model):
     platform = models.CharField(max_length=50, choices=game_platforms, null=True)
     status = models.CharField(max_length=50, choices=game_statuses, null=True)
     rating = models.IntegerField(choices=game_ratings, null=True)
+    ranking = models.IntegerField()
+
+    class Meta:
+        ordering = ["ranking"]
