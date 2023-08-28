@@ -6,7 +6,10 @@
 {% endblock %}
 
 {% block content %}
-<h1 class="page-title">Currently playing</h1>
+<div class="title-block">
+  <h1 class="page-title">Currently playing</h1>
+  <a class="float-end" href="{% url 'shelf:edit_order' status='playing' %}">Edit order</a>
+</div>
 {% if games %}
 {% include "shelf/games/components/game_list.html" with games=games %}
 {% else %}

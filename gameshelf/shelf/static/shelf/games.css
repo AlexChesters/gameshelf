@@ -7,11 +7,15 @@
   font-size: smaller;
 }
 
-/* td:nth-last-child(1) {
-    text-align: right;
-} */
-
 .game-info {
   text-decoration: none;
   color: inherit;
+}
+
+.title-block {
+  margin-bottom: 20px;
+}
+
+.title-block > * {
+  display: inline;
 }
