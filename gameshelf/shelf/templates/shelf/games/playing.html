@@ -8,15 +8,7 @@
 {% block content %}
 <h1 class="page-title">Currently playing</h1>
 {% if games %}
-<div class="list-group">
-  {% for game in games %}
-  <a href="{% url 'shelf:edit_a_game' game.id %}" class="game-info list-group-item list-group-item-action">
-    <div class="game-title">{{game.title}}</div>
-    <div class="platform">{{game.get_platform_display}}</div>
-    <div>{{game.get_rating_display}}</div>
-  </a>
-  {% endfor %}
-</div>
+{% include "shelf/games/components/game_list.html" with games=games %}
 {% else %}
 <p>No currently playing games</p>
 {% endif %}
