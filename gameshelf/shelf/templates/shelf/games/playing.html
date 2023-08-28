@@ -8,21 +8,17 @@
 {% block content %}
 <h1 class="page-title">Currently playing</h1>
 {% if games %}
-<table class="table">
-  <tbody>
+<ul class="list-group">
   {% for game in games %}
-  <tr>
-    <td>
-      <a href="{% url 'shelf:edit_a_game' game.id %}" class="game-info">
-        <div class="game-title">{{game.title}}</div>
-        <div class="platform">{{game.get_platform_display}}</div>
-        <div>{{game.get_rating_display}}</div>
-      </a>
-    </td>
-  </tr>
+  <li class="list-group-item">
+    <a href="{% url 'shelf:edit_a_game' game.id %}" class="game-info">
+      <div class="game-title">{{game.title}}</div>
+      <div class="platform">{{game.get_platform_display}}</div>
+      <div>{{game.get_rating_display}}</div>
+    </a>
+  </li>
   {% endfor %}
-  </tbody>
-</table>
+</ul>
 {% else %}
 <p>No currently playing games</p>
 {% endif %}
