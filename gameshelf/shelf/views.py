@@ -1,4 +1,5 @@
 import re
+import datetime
 
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
@@ -6,12 +7,19 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest, HttpResponseRedirect
 from django import forms
 from django.db import transaction
+from django.db.models import Max
+from bootstrap_datepicker_plus.widgets import DatePickerInput
 
 from user_profile.models import ShelfUser
 from shelf.models import Game, game_platforms, game_statuses, game_ratings
 
 class GameForm(forms.Form):
     title = forms.CharField(max_length=200)
+    release_date = forms.DateField(
+        initial=datetime.date.today,
+        required=False,
+        widget=DatePickerInput(options={"format": "DD/MM/YYYY", "showClear": True})
+    )
     platform = forms.ChoiceField(choices=game_platforms)
     status = forms.ChoiceField(choices=game_statuses)
     rating = forms.ChoiceField(choices=game_ratings)
@@ -63,9 +71,11 @@ def add_a_game(request: HttpRequest):
 
         game, _ = Game.objects.get_or_create(
             title=request.POST["title"],
+            release_date=request.POST["release_date"] or None,
             platform=request.POST["platform"],
             status=request.POST["status"],
-            rating=request.POST["rating"]
+            rating=request.POST["rating"],
+            ranking=Game.objects.aggregate(Max("ranking"))["ranking__max"] + 1
         )
 
         user.collection.games.add(game)
@@ -86,6 +96,7 @@ def edit_a_game(request: HttpRequest, game_id):
         game = Game.objects.get(id=game_id)
 
         game.platform = request.POST["platform"]
+        game.release_date = request.POST["release_date"]
         game.status = request.POST["status"]
         game.rating = request.POST["rating"]
         game.save()
@@ -100,6 +111,7 @@ def edit_a_game(request: HttpRequest, game_id):
             "form": GameForm(
                 initial={
                     "title": game.title,
+                    "release_date": game.release_date,
                     "platform": game.platform,
                     "status": game.status,
                     "rating": game.rating

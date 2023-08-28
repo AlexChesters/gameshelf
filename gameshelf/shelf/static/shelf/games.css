@@ -3,8 +3,12 @@
   font-size: large;
 }
 
-.platform {
+.game-detail {
   font-size: smaller;
+}
+
+.game-detail > div {
+  display: inline;
 }
 
 .game-info {

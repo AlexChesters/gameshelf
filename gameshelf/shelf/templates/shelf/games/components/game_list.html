@@ -2,8 +2,14 @@
   {% for game in games %}
   <a href="{% url 'shelf:edit_a_game' game.id %}" class="game-info list-group-item list-group-item-action">
     <div class="game-title">{{game.title}}</div>
-    <div class="platform">{{game.get_platform_display}}</div>
-    <div>{{game.get_rating_display}}</div>
+    <div class="game-detail">
+      {{game.get_platform_display}}
+      {% if game.rating %}
+      <div>- {{game.get_rating_display}}</div>
+      {% elif game.release_date %}
+      <div>- {{game.release_date}}</div>
+      {% endif %}
+    </div>
   </a>
   {% endfor %}
 </div>

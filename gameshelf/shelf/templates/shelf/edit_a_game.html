@@ -1,7 +1,12 @@
 {% extends 'base.html' %}
 
+{% block head %}
+<script src="https://code.jquery.com/jquery-3.7.0.slim.min.js"></script>
+{% endblock %}
+
 {% block content %}
 <h1 class="page-title">Edit {{game.title}}</h1>
+{{ form.media }}
 <form method="post">
   {% csrf_token %}
   {{ form.as_p }}
