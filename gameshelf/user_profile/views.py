@@ -14,13 +14,16 @@ class AuthenticateForm(forms.Form):
     user_name = forms.CharField(max_length=50)
     password = forms.CharField(widget=forms.PasswordInput())
 
+class EditProfileForm(forms.Form):
+    user_name = forms.CharField(max_length=50)
+
 @login_required
 def user_profile(request: HttpRequest):
     if request.method == "POST":
         if "sign_out" in request.POST:
             logout(request)
-            return HttpResponseRedirect(reverse('user_profile:sign_in'))
-        else:
+            return HttpResponseRedirect(reverse("user_profile:sign_in"))
+        elif "export" in request.POST:
             user: ShelfUser = request.user
             games: list[Game] = user.collection.games.all()
 
@@ -34,13 +37,29 @@ def user_profile(request: HttpRequest):
                 writer.writerow(game.to_dict())
 
             return response
+        elif "edit_profile" in request.POST:
+            return HttpResponseRedirect(reverse("user_profile:edit_profile"))
     else:
         context = {
             "username": request.user.username
         }
         return render(request, "user_profile/profile.html", context)
 
-def sign_in(request):
+@login_required
+def edit_profile(request: HttpRequest):
+    user: ShelfUser = request.user
+    if request.method == "POST":
+        user.username = request.POST["user_name"]
+        user.save()
+
+        return HttpResponseRedirect(reverse("user_profile:profile"))
+    else:
+        context = {
+            "form": EditProfileForm(initial={"user_name": user.username})
+        }
+        return render(request, "user_profile/edit_profile.html", context)
+
+def sign_in(request: HttpRequest):
     if request.method == "POST":
         username = request.POST["user_name"]
         password = request.POST["password"]
@@ -58,7 +77,7 @@ def sign_in(request):
         }
         return render(request, "user_profile/sign_in.html", context)
 
-def sign_up(request):
+def sign_up(request: HttpRequest):
     if request.method == "POST":
         username = request.POST["user_name"]
         password = request.POST["password"]

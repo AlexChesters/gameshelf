@@ -6,11 +6,12 @@
 {% endblock %}
 
 {% block content %}
-<h1>Hello, {{ username }}</h1>
+<h1>{{ username }}</h1>
 
 <div>
   <form method="post">
     {% csrf_token %}
+    <button type="submit" class="btn btn-primary" name="edit_profile">Edit your profile</button>
     <button type="submit" class="btn btn-primary" name="export">Export your data</button>
     <button type="submit" class="btn btn-danger fixed-bottom" name="sign_out">Sign out</button>
   </form>
