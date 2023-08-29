@@ -27,24 +27,22 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false" data-bs-toggle="dropdown">
-                Shelf
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="/shelf/unplayed">Unplayed</a>
-                <a class="dropdown-item" href="/shelf/playing">Currently playing</a>
-                <a class="dropdown-item" href="/shelf/completed">Completed</a>
-              </div>
+            <li class="nav-item">
+              <a class="nav-link" href="/shelf/unplayed">Unplayed games</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/shelf/add">Add a game</a>
+              <a class="nav-link" href="/shelf/playing">Currently playing</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/shelf/completed">Completed games</a>
             </li>
           </ul>
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <a class="nav-link" href="/user/profile">{{username}}</a>
+              <a class="nav-link" href="/shelf/add">Add a game</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/user/profile">&#128100;</a>
             </li>
           </ul>
         </div>
