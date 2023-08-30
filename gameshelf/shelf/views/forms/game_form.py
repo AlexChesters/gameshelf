@@ -20,5 +20,10 @@ class GameForm(forms.Form):
         disable_title = kwargs.pop("disable_title", None)
         super(GameForm, self).__init__(*args, **kwargs)
 
+        self.fields["title"].widget.attrs["class"] = "form-control"
+        self.fields["platform"].widget.attrs["class"] = "form-select"
+        self.fields["status"].widget.attrs["class"] = "form-select"
+        self.fields["rating"].widget.attrs["class"] = "form-select"
+
         if disable_title:
             self.fields["title"].disabled = True
