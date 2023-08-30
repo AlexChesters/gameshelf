@@ -10,6 +10,7 @@
 <form method="post">
   {% csrf_token %}
   {{ form.as_p }}
-  <button type="submit" class="btn btn-success">Save</button>
+  <button type="submit" class="btn btn-success" name="save">Save</button>
+  <button type="submit" class="btn btn-danger" name="delete">Delete</button>
 </form>
 {% endblock %}

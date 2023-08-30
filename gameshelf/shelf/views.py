@@ -91,20 +91,27 @@ def add_a_game(request: HttpRequest):
 @login_required
 def edit_a_game(request: HttpRequest, game_id):
     if request.method == "POST":
-        user: ShelfUser = request.user
+        if "save" in request.POST:
+            user: ShelfUser = request.user
 
-        game = Game.objects.get(id=game_id)
+            game = Game.objects.get(id=game_id)
 
-        game.platform = request.POST["platform"]
-        game.release_date = request.POST["release_date"]
-        game.status = request.POST["status"]
-        game.rating = request.POST["rating"]
-        game.save()
+            game.platform = request.POST["platform"]
+            game.release_date = request.POST["release_date"] or None
+            game.status = request.POST["status"]
+            game.rating = request.POST["rating"]
+            game.save()
 
-        user.collection.games.add(game)
-        user.save()
+            user.collection.games.add(game)
+            user.save()
 
-        return HttpResponseRedirect(reverse(f"shelf:{game.status}"))
+            return HttpResponseRedirect(reverse(f"shelf:{game.status}"))
+        elif "delete" in request.POST:
+            game = Game.objects.get(id=game_id)
+            status_to_redirect_to = game.status
+            game.delete()
+
+            return HttpResponseRedirect(reverse(f"shelf:{status_to_redirect_to}"))
     else:
         game = get_object_or_404(Game, pk=game_id)
         context = {
