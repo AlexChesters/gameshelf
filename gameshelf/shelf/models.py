@@ -19,7 +19,12 @@ game_platforms = [
     ("ps2", "PlayStation 2"),
     ("ps3", "PlayStation 3"),
     ("ps4", "PlayStation 4"),
-    ("ps5", "PlayStation 5")
+    ("ps5", "PlayStation 5"),
+    # Nintendo
+    ("nintendo_switch", "Nintendo Switch"),
+    # Mobile
+    ("ios", "iOS"),
+    ("android", "Android")
 ]
 
 game_statuses = [
