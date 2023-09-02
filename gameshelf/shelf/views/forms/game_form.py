@@ -1,5 +1,3 @@
-import datetime
-
 from django import forms
 from bootstrap_datepicker_plus.widgets import DatePickerInput
 
@@ -8,7 +6,7 @@ from shelf.models import game_platforms, game_statuses, game_ratings
 class GameForm(forms.Form):
     title = forms.CharField(max_length=200)
     release_date = forms.DateField(
-        initial=datetime.date.today,
+        initial=None,
         required=False,
         widget=DatePickerInput(options={"format": "DD/MM/YYYY", "showClear": True})
     )
