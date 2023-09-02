@@ -1,11 +1,12 @@
 from django.urls import path
 from django.shortcuts import redirect
 
-from .views import unplayed_games, currently_playing_games, completed_games, add_a_game, edit_a_game, edit_order
+from .views import wishlist_games, unplayed_games, currently_playing_games, completed_games, add_a_game, edit_a_game, edit_order
 
 app_name = "shelf"
 urlpatterns = [
     path("", lambda _: redirect("/shelf/playing", permanent=False)),
+    path("wishlist", wishlist_games, name="wishlist"),
     path("unplayed", unplayed_games, name="unplayed"),
     path("playing", currently_playing_games, name="playing"),
     path("completed", completed_games, name="completed"),

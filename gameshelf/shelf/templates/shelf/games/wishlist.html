@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'shelf/games.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="title-block">
+  <h1 class="page-title">Wishlist</h1>
+  <a class="float-end" href="{% url 'shelf:edit_order' status='completed' %}">Edit order</a>
+</div>
+{% if games %}
+{% include "shelf/games/components/game_list.html" with games=games %}
+{% else %}
+<p>No games on your wishlist</p>
+{% endif %}
+{% endblock %}
