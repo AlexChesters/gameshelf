@@ -49,10 +49,9 @@ class Game(models.Model):
     platform = models.CharField(max_length=50, choices=game_platforms, null=True)
     status = models.CharField(max_length=50, choices=game_statuses, null=True)
     rating = models.IntegerField(choices=game_ratings, null=True)
-    ranking = models.IntegerField()
 
     class Meta:
-        ordering = ["ranking"]
+        ordering = ["title"]
 
     def to_dict(self) -> dict:
         return {
@@ -60,6 +59,5 @@ class Game(models.Model):
             "release_date": self.release_date.isoformat() if self.release_date else None,
             "platform": self.platform,
             "status": self.status,
-            "rating": self.rating,
-            "ranking": self.ranking
+            "rating": self.rating
         }

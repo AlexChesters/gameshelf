@@ -1,7 +1,6 @@
 from django.http import HttpRequest, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from django.db.models import Max
 from django.urls import reverse
 
 from user_profile.models import ShelfUser
@@ -18,8 +17,7 @@ def add_a_game(request: HttpRequest):
             release_date=request.POST["release_date"] or None,
             platform=request.POST["platform"],
             status=request.POST["status"],
-            rating=request.POST["rating"],
-            ranking=Game.objects.aggregate(Max("ranking"))["ranking__max"] + 1
+            rating=request.POST["rating"]
         )
 
         user.collection.games.add(game)

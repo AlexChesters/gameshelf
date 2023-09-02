@@ -8,7 +8,6 @@
 {% block content %}
 <div class="title-block">
   <h1 class="page-title">Unplayed</h1>
-  <a class="float-end" href="{% url 'shelf:edit_order' status='unplayed' %}">Edit order</a>
 </div>
 {% if games %}
 {% include "shelf/games/components/game_list.html" with games=games %}
