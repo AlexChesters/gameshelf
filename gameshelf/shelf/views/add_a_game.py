@@ -4,8 +4,7 @@ from django.shortcuts import render
 from django.urls import reverse
 
 from user_profile.models import ShelfUser
-from shelf.models import Game
-from shelf.views.forms.game_form import GameForm
+from shelf.models import Game, game_platforms, game_statuses, game_ratings
 
 @login_required
 def add_a_game(request: HttpRequest):
@@ -26,6 +25,8 @@ def add_a_game(request: HttpRequest):
         return HttpResponseRedirect(reverse("shelf:add_a_game"))
     else:
         context = {
-            "form": GameForm()
+            "platforms": game_platforms,
+            "statuses": game_statuses,
+            "ratings": game_ratings
         }
         return render(request, "shelf/add_a_game.html", context)

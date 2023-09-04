@@ -8,10 +8,5 @@
 
 {% block content %}
 <h1 class="page-title">Add a game</h1>
-{{ form.media }}
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit" class="btn btn-success">Add game</button>
-</form>
+{% include "shelf/components/game_form.html" %}
 {% endblock %}
