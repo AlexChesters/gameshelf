@@ -19,6 +19,7 @@ class GameForm(forms.Form):
         super(GameForm, self).__init__(*args, **kwargs)
 
         self.fields["title"].widget.attrs["class"] = "form-control"
+        self.fields["release_date"].widget.attrs["class"] = "form-control"
         self.fields["platform"].widget.attrs["class"] = "form-select"
         self.fields["status"].widget.attrs["class"] = "form-select"
         self.fields["rating"].widget.attrs["class"] = "form-select"
