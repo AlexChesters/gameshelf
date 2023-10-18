@@ -1,3 +1,5 @@
+import csv
+
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
@@ -6,6 +8,7 @@ from django.urls import reverse
 from django import forms
 
 from user_profile.models import ShelfUser, Collection
+from shelf.models import Game
 
 class AuthenticateForm(forms.Form):
     user_name = forms.CharField(max_length=50)
@@ -21,13 +24,17 @@ def user_profile(request: HttpRequest):
             logout(request)
             return HttpResponseRedirect(reverse("user_profile:sign_in"))
         elif "export" in request.POST:
+            user: ShelfUser = request.user
+            games: list[Game] = user.collection.games.all()
+
             response = HttpResponse(
-                content_type="application/force-download",
-                headers={
-                    "Content-Disposition": 'attachment; filename="gameshelf.sqlite3"',
-                    "X-Accel-Redirect": "/db/db.sqlite3"
-                }
+                content_type="text/csv",
+                headers={"Content-Disposition": 'attachment; filename="gameshelf.csv"'}
             )
+            writer = csv.DictWriter(response, fieldnames=games[0].to_dict().keys())
+            writer.writeheader()
+            for game in games:
+                writer.writerow(game.to_dict())
 
             return response
         elif "edit_profile" in request.POST:
