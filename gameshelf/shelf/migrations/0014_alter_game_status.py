@@ -2,6 +2,12 @@
 
 from django.db import migrations, models
 
+def rename_old_choices(apps, _schema_editor):
+    Game = apps.get_model("shelf", "Game")
+    for game in Game.objects.all():
+        if game.status in ["wishlist", "unplayed"]:
+            game.status = "waiting_to_play"
+            game.save()
 
 class Migration(migrations.Migration):
 
@@ -23,4 +29,5 @@ class Migration(migrations.Migration):
                 null=True,
             ),
         ),
+        migrations.RunPython(rename_old_choices)
     ]
