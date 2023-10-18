@@ -28,7 +28,7 @@ game_platforms = [
 ]
 
 game_statuses = [
-    ("wishlist", "Wishlist"),
+    ("waiting_to_play", "Waiting to play"),
     ("playing", "Currently playing"),
     ("completed", "Completed")
 ]
