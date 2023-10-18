@@ -5,12 +5,12 @@ from django.shortcuts import render
 from user_profile.models import ShelfUser
 
 @login_required
-def wishlist_games(request: HttpRequest):
+def waiting_to_play_games(request: HttpRequest):
     user: ShelfUser = request.user
 
-    games = user.collection.games.all().filter(status="wishlist")
+    games = user.collection.games.all().filter(status="waiting_to_play")
 
     context = {
         "games": games
     }
-    return render(request, "shelf/games/wishlist.html", context)
+    return render(request, "shelf/games/waiting.html", context)

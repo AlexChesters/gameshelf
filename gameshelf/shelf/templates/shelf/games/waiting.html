@@ -7,11 +7,11 @@
 
 {% block content %}
 <div class="title-block">
-  <h1 class="page-title">Wishlist</h1>
+  <h1 class="page-title">Waiting to play</h1>
 </div>
 {% if games %}
 {% include "shelf/games/components/game_list.html" with games=games %}
 {% else %}
-<p>No games on your wishlist</p>
+<p>No games waiting to play</p>
 {% endif %}
 {% endblock %}
