@@ -17,6 +17,7 @@ services:
       ALLOWED_ORIGINS: https://pi-apps.chicken-stork.ts.net:10014
   nginx:
     image: arm64v8/nginx:1.25.2-alpine
+    restart: unless-stopped
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
       - gameshelf_static:/var/www/gameshelf/static
