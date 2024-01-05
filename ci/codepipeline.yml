@@ -10,7 +10,7 @@ Resources:
             Principal:
               Service: codebuild.amazonaws.com
       ManagedPolicyArns:
-        - !ImportValue ci-infrastructure-codebuild-base-policy
+        - !ImportValue ci-infrastructure-codebuild-base-iam-policy
       Policies:
         - PolicyName: ecr-upload
           PolicyDocument:
@@ -49,7 +49,7 @@ Resources:
     Properties:
       Artifacts:
         Type: CODEPIPELINE
-        Location: !ImportValue ci-infrastructure-build-artifacts-bucket-name
+        Location: !ImportValue ci-infrastructure-artifacts-bucket-name
         Path: /artifacts/gameshelf/
         Packaging: NONE
         Name: build
@@ -62,7 +62,7 @@ Resources:
         Type: ARM_CONTAINER
         PrivilegedMode: true
         EnvironmentVariables:
-          - Value: !ImportValue ci-infrastructure-build-artifacts-bucket-name
+          - Value: !ImportValue ci-infrastructure-artifacts-bucket-name
             Name: ARTIFACTS_BUCKET
             Type: PLAINTEXT
       Name: gameshelf
@@ -84,7 +84,7 @@ Resources:
             Location: !Sub "alex-chesters-build-artifacts-${AWS::AccountId}-us-east-1"
       Name: gameshelf
       RestartExecutionOnUpdate: true
-      RoleArn: !ImportValue ci-infrastructure-codepipeline-base-execution-role
+      RoleArn: !ImportValue ci-infrastructure-codepipeline-base-execution-iam-role
       Stages:
         - Name: Source
           Actions:
@@ -98,7 +98,7 @@ Resources:
               RunOrder: 1
               Name: Clone-From-GitHub
               Configuration:
-                ConnectionArn: !ImportValue ci-infrastructure-codestar-connection
+                ConnectionArn: !ImportValue ci-infrastructure-github-codestar-connection
                 FullRepositoryId: AlexChesters/gameshelf
                 BranchName: main
                 OutputArtifactFormat: CODE_ZIP
@@ -118,7 +118,7 @@ Resources:
                 ActionMode: REPLACE_ON_FAILURE
                 Capabilities: CAPABILITY_NAMED_IAM,CAPABILITY_AUTO_EXPAND
                 StackName: live-gameshelf-images
-                RoleArn: !ImportValue ci-infrastructure-codepipeline-base-cloudformation-role
+                RoleArn: !ImportValue ci-infrastructure-codepipeline-base-cloudformation-iam-role
                 TemplatePath: GitHubSource::stacks/docker-images-account/ecr.yml
                 TemplateConfiguration: GitHubSource::stacks/docker-images-account/parameters/ecr.json
         - Name: Deploy-Images
