@@ -77,12 +77,13 @@ Resources:
         - Region: eu-west-1
           ArtifactStore:
             Type: S3
-            Location: !Sub "alex-chesters-build-artifacts-${AWS::AccountId}-eu-west-1"
+            Location: !Sub "atc-ci-artifacts-${AWS::AccountId}-eu-west-1"
         - Region: us-east-1
           ArtifactStore:
             Type: S3
-            Location: !Sub "alex-chesters-build-artifacts-${AWS::AccountId}-us-east-1"
+            Location: !Sub "atc-ci-artifacts-${AWS::AccountId}-us-east-1"
       Name: gameshelf
+      PipelineType: V2
       RestartExecutionOnUpdate: true
       RoleArn: !ImportValue ci-infrastructure-codepipeline-base-execution-iam-role
       Stages:
